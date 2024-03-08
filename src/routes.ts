@@ -14,6 +14,8 @@ import getUserShows from "../routes/get-user-shows";
 import addMovie from "../routes/add-movie";
 import addShow from "../routes/add-show";
 import addAnime from "../routes/add-anime";
+import addPost from "../routes/add-post";
+import getUserPosts from "../routes/get-user-posts";
 
 const router = express.Router();
 
@@ -33,5 +35,7 @@ router.use("/get-user-shows", getUserShows)
 router.use("/add-movie", addMovie)
 router.use("/add-show", addShow)
 router.use("/add-anime", addAnime)
+router.use("/add-post", addPost)
+router.use("/get-user-posts", getUserPosts)
 
 export default router;

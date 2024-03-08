@@ -90,12 +90,9 @@ const login = async (req: Request, res: Response) => {
         // If no User is found, return a 404 response with an error message
         if (!User) return res.status(404).json({ error: "User not found" })
 
-        // Comparing the password with the hashed password in the database using bcrypt
-        const passwordMatches = await bcrypt.compare(password, user.password)
-
-        // If the password does not match, return a 401 response with an error message
-        if(!passwordMatches){
-            return res.status(401).json({ password: 'Password is incorrect' })
+        // If no User is found or incorrect password, return a 404 response with an error message
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            return res.status(401).json({ password: "Username or password is incorrect" })
         }
 
         // Generating a JSON web token using jwt and the username and secret key from environment variables

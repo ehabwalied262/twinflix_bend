@@ -1,9 +1,11 @@
 import { Length, Matches  } from "class-validator"
-import { Entity as TOEntity, PrimaryGeneratedColumn, Column, Index, CreateDateColumn, UpdateDateColumn, BeforeInsert } from "typeorm"
+import { Entity as TOEntity, PrimaryGeneratedColumn, Column, Index, CreateDateColumn, UpdateDateColumn, BeforeInsert, OneToMany } from "typeorm"
 import { emailRegex, passwordRegex, usernameRegex } from "./utils/regExpression"
 import bcrypt from "bcrypt"
 import { Exclude } from "class-transformer"
 import Entity  from "./Entity"
+import { Post } from "./Post"
+import { Comment } from "./Comment"
 
 @TOEntity("users")
 export class User extends Entity {
@@ -44,5 +46,11 @@ export class User extends Entity {
     async hashPassword(){
         this.password = await bcrypt.hash(this.password, 6)
     }
+
+    @OneToMany(() => Post, post => post.user)
+    posts: Post[]; // One-to-many relationship with Post entity
+
+    @OneToMany(() => Comment, comment => comment.user)
+    comments: Comment[]; // One-to-many relationship with Comment entity
 
 }
